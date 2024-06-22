@@ -4,9 +4,9 @@ import { singlePostData, userData } from "../../lib/dummydata";
 
 function SinglePage() {
   return (
-    <div className="flex h-full flex-col md:flex-row overflow-scroll md:overflow-hidden gap-2">
+    <div className="flex h-full flex-col lg:flex-row overflow-scroll lg:overflow-hidden gap-2">
       <div className="flex-none h-max mb[50px] md:flex-[3] md:h-full ">
-        <div className="pe-[50px] md:pe-5 lg:pe-0">
+        <div className="lg:pe-[50px] md:pe-5 p-2">
           <Slider images={singlePostData.images} />
           <div className="mt-[50px]">
             <div className="flex-col gap-5 flex sm:flex-row justify-between sm:gap-0">
@@ -27,7 +27,7 @@ function SinglePage() {
           </div>
         </div>
       </div>
-      <div className="flex-non h-max mb-[50px] md:flex-2 md:h-full overflow-y-scroll">
+      <div className="flex-none h-max mb-[50px] md:flex-2 md:h-full lg:overflow-y-scroll bg-[#fcf5f3] pb-5">
         <div className="p-5 md:px-5 py-0 flex flex-col gap-5">
           <p className="font-bold text-lg mb-2.5">General</p>
           <div className="flex flex-col gap-5 py-5 px-[10px] bg-white rounded-[10px">
@@ -54,7 +54,7 @@ function SinglePage() {
             </div>
           </div>
           <p className="font-bold text-lg mb-2.5">Sizes</p>
-          <div className="lg:text-[12px] flex justify-between">
+          <div className="lg:text-[12px] flex flex-col lg:flex-row justify-between">
             <div className="flex items-center gap-2.5 bg-white p-2.5 rounded-[5px]">
               <img className="h-6 w-6 bg-[#fecd5135]" src="/size.png" alt="" />
               <span>80 sqft</span>
@@ -69,7 +69,7 @@ function SinglePage() {
             </div>
           </div>
           <p className="font-bold text-lg mb-2.5">Nearby Places</p>
-          <div className="flex justify-between px-[10px] py-5 bg-white rounded-[10px]">
+          <div className="flex justify-between px-[10px] py-5 bg-white rounded-[10px] flex-col lg:flex-row gap-1">
             <div className="flex items-center gap-[10px]">
               <img className="h-6 w-6 bg-[#fecd5135]" src="/school.png" alt="" />
               <div className="">
@@ -96,7 +96,7 @@ function SinglePage() {
           <div className="w-full h-[200px]">
             <Map items={[singlePostData]} />
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-1">
             <button className="p-5 flex items-center gap-2.5 bg-white border-[1px] border-[#fece51] rounded-[5px] cursor-pointer">
               <img className="h-4 w-4" src="/chat.png" alt="" />
               Send a Message

@@ -3,7 +3,7 @@ import bg from "/bg.png";
 
 function HomePage() {
   return (
-    <div className="flex h-full">
+    <div className="flex h-full overflow-y-scroll lg:overflow-hidden">
       <div className="flex-[3]">
         <div className="px-2 flex flex-col justify-center gap-[50px] h-full">
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">Find Real Estate & Get Your Dream Place</h1>
@@ -30,7 +30,7 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="hidden lg:flex flex-[2] items-center relative">
+      <div className="hidden lg:flex flex-[2] items-center bg-[#fcf5f3] relative">
         <img className="absolute w-[115%] right-0" src={bg} alt="" />
       </div>
     </div>

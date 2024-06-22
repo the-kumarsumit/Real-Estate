@@ -8,7 +8,7 @@ import save from "/save.png";
 
 function Card({ item }) {
   return (
-    <div className="flex gap-5 pe-2">
+    <div className="flex gap-5 pe-2 flex-col md:flex-row">
       <Link to={`/${item.id}`} className="flex-[2] h-[200px]">
         <img
           className="w-full h-full object-cover rounded-[10px]"
@@ -27,7 +27,7 @@ function Card({ item }) {
         <p className="text-xl font-light p-[5px] rounded-[5px] bg-[rgba(254,205,81,0.438)] w-max">
           ${item.price}
         </p>
-        <div className="flex gap-2.5 justify-between">
+        <div className="flex gap-2.5 justify-between flex-col md:flex-row">
           <div className="flex gap-5 text-[14px]">
             <div className="flex items-center gap-[5px] bg-slate-200 p-[5px] rounded-[5px]">
               <img className="h-4 w-4" src={bed} alt="" />

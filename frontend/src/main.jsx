@@ -10,6 +10,7 @@ import Register from "./components/register/Register.jsx";
 import HomePage from './components/homepage/HomePage.jsx';
 import Listpage from './components/listpage/Listpage.jsx';
 import SinglePage from './components/singlepage/SinglePage.jsx';
+import Profile from './components/profile/Profile.jsx'
 
 
 
@@ -22,6 +23,8 @@ const router=createBrowserRouter(
       <Route path='login' element={<Login/>}/>
       <Route path='register' element={<Register/>}/>
       <Route path='list' element={<Listpage/>}/>
+      <Route path='list' element={<Listpage/>}/>
+      <Route path='profile' element={<Profile/>}/>
       <Route path=':id' element={<SinglePage/>}/>
     </Route>
   )

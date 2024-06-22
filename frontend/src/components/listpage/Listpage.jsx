@@ -8,7 +8,7 @@ function Listpage() {
 
     const data=listData;
   return (
-    <div className='flex h-full flex-col sm:flex-row gap-1 p-2'>
+    <div className='flex h-full flex-col sm:flex-row px-2'>
         <div className='sm:flex-[3] h-full'>
             <div className='h-full flex flex-col overflow-y-scroll pb-12 gap-[50px]'>
                 <Filter/>
@@ -17,7 +17,7 @@ function Listpage() {
                 ))}
             </div>
         </div>
-        <div className=' hidden lg:flex sm:flex-[2] '>
+        <div className=' hidden lg:flex sm:flex-[2] bg-[#fcf5f3]'>
             <Map items={data}/>
         </div>
     </div>

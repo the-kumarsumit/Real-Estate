@@ -1,10 +1,11 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 import HamburgerMenu from "./HamburgerMenu";
+import UserContext from "../../assets/context/UserContext";
 
 function Header() {
-  const user = true;
+  const {user}=useContext(UserContext)
 
   return (
     <>
@@ -61,7 +62,7 @@ function Header() {
                 src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="User"
               />
-              <span className="hidden sm:flex me-2">John Doe</span>
+              <span className="hidden sm:flex me-2">{user?.data?.userInfo?.username}</span>
               <Link
                 to="/profile"
                 className="py-3 px-6 bg-[#fece51] cursor-pointer border-0 relative "

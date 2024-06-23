@@ -1,8 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import Chat from "../chat/Chat";
 import List from "../list/List";
+import axios from "axios";
+import { useContext } from "react";
+import UserContext from "../../assets/context/UserContext";
 
 
 function ProfilePage() {
+
+  const {logout,user}=useContext(UserContext)
+  const handleLogout = async() => {
+    try {
+      const res= axios.post("http://localhost:8000/api/auth/logout")
+      logout()
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const navigate=useNavigate()
+
   return (
     <div className="flex h-full flex-col lg:flex-row px-2">
       <div className="md:flex-[3] h-max md:h-auto lg:overflow-y-scroll pb-[50px] ">
@@ -20,11 +37,12 @@ function ProfilePage() {
               />
             </span>
             <span className="flex items-center gap-5">
-              Username: <b>John Doe</b>
+              Username: <b>{user?.data?.userInfo?.username}</b>
             </span>
             <span className="flex items-center gap-5">
-              E-mail: <b>john@gmail.com</b>
+              E-mail: <b>{user?.data?.userInfo?.email}</b>
             </span>
+            <button className="flex w-20 bg-teal-600 text-white p-2 items-center justify-center rounded hover:bg-teal-700" onClick={handleLogout}>LogOut</button>
           </div>
           <div className="flex items-center justify-between">
             <h1>My List</h1>

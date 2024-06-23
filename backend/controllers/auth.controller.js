@@ -1,17 +1,16 @@
 import bcrypt from "bcryptjs";
 import prisma from "../lib/prisma.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
+import jwt from "jsonwebtoken";
 
-export const register = asyncHandler(async (req, res) => {
+export const register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
+  console.log(req.body);
   if (username == "" || email == "" || password == "") {
-    throw new ApiError(400, "All fields are required");
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   if (password != confirmPassword) {
-    throw new ApiError(400, "Password not matched");
+    return res.status(400).json({ message: "Password not matched" });
   }
 
   const checkUsername = await prisma.user.findUnique({
@@ -19,14 +18,14 @@ export const register = asyncHandler(async (req, res) => {
   });
 
   if (checkUsername) {
-    throw new ApiError(400, "Username already exists");
+    return res.status(400).json({ message: "Username already exists" });
   }
   const checkEmail = await prisma.user.findUnique({
     where: { email },
   });
 
   if (checkEmail) {
-    throw new ApiError(400, "Email already exists");
+    return res.status(400).json({ message: "Email already exists" });
   }
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -39,18 +38,16 @@ export const register = asyncHandler(async (req, res) => {
   });
 
   if (!newUser) {
-    throw new ApiError(400, "User Creation Failed");
+    return res.status(400).json({ message: "Can't create user" });
   }
-  return res
-    .status(201)
-    .json(new ApiResponse(200, newUser, "User Registered Successfully"));
-});
+  return res.status(200).json({ message: "User registered successfully" });
+};
 
-export const login = asyncHandler(async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  if (email == "" || password == "") {
-    throw new ApiError(400, "All fields are required");
+  if (!email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   const user = await prisma.user.findUnique({
@@ -58,21 +55,39 @@ export const login = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(400, "Uer not Found");
+    return res.status(400).json({message:"User not Found"})
   }
 
-  const isPasswordValid = await bcrypt.compare(password,user.password)
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  if(!isPasswordValid){
-    throw new ApiError(400,"Invalid Password")
+  if (!isPasswordValid) {
+    return res.status(400).json({message:"Invalid Password"})
   }
-  
-  return res
-  .status(201)
-  .json(new ApiResponse(200,user,"Logged in successfully"))
-});
 
-export const logout = asyncHandler(async (req, res) => {
-  //db operation
-  console.log("Logout");
-});
+  const age = 1000 * 60 * 60 * 24 * 7;
+  const token = jwt.sign(
+    {
+      id: user.id,
+      isAdmin: false,
+    },
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: age }
+  );
+  const { password: userPassword, ...userInfo } = user;
+
+  res
+    .cookie("token", token, {
+      httpOnly: true,
+      // secure:true,
+      maxAge: age,
+    })
+    .status(200)
+    .json({message:"Login successfull",userInfo});
+
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie('token')
+    .status(200)
+    .json({ message: 'Logout successful' });
+};

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 import HamburgerMenu from "./HamburgerMenu";
-import UserContext from "../../assets/context/UserContext";
+import UserContext from "../../context/UserContext";
 
 function Header() {
   const {user}=useContext(UserContext)
@@ -59,10 +59,10 @@ function Header() {
             <div className="sm:flex items-center font-bold pe-2 hidden">
               <img
                 className="w-10 h-10 rounded-full object-cover me-2"
-                src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={user.avatar || "/noavatar.jpg"}
                 alt="User"
               />
-              <span className="hidden sm:flex me-2">{user?.data?.userInfo?.username}</span>
+              <span className="hidden sm:flex me-2">{user?.username}</span>
               <Link
                 to="/profile"
                 className="py-3 px-6 bg-[#fece51] cursor-pointer border-0 relative "

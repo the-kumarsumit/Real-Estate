@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
-  console.log(req.body);
   if (username == "" || email == "" || password == "") {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -68,7 +67,7 @@ export const login = async (req, res) => {
   const token = jwt.sign(
     {
       id: user.id,
-      isAdmin: false,
+      isAdmin: true,
     },
     process.env.JWT_SECRET_KEY,
     { expiresIn: age }
@@ -80,6 +79,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       // secure:true,
       maxAge: age,
+      
     })
     .status(200)
     .json({message:"Login successfull",userInfo});

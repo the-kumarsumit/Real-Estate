@@ -3,27 +3,30 @@ import React, { createContext, useState, useEffect } from 'react';
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("data")) || null
+  );
   useEffect(() => {
-    const storedUser = localStorage.getItem('data');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+    localStorage.setItem("data", JSON.stringify(user));
+  }, [user]);
 
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem('data', JSON.stringify(userData));
   };
 
+  const updateUser=(data)=>{
+    localStorage.setItem('data', JSON.stringify(data));
+    setUser(data)
+  }
+
   const logout = () => {
-    setUser(null);
     localStorage.removeItem('data');
+    setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </UserContext.Provider>
   );

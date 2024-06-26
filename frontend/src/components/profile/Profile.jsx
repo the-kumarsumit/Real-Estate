@@ -3,12 +3,14 @@ import Chat from "../chat/Chat";
 import List from "../list/List";
 import axios from "axios";
 import { useContext } from "react";
-import UserContext from "../../assets/context/UserContext";
+import UserContext from "../../context/UserContext";
 
 
-function ProfilePage() {
+function Profile() {
 
   const {logout,user}=useContext(UserContext)
+  const navigate=useNavigate()
+  
   const handleLogout = async() => {
     try {
       const res= axios.post("http://localhost:8000/api/auth/logout")
@@ -18,7 +20,6 @@ function ProfilePage() {
       console.log(error);
     }
   };
-  const navigate=useNavigate()
 
   return (
     <div className="flex h-full flex-col lg:flex-row px-2">
@@ -26,21 +27,21 @@ function ProfilePage() {
         <div className="md:pe-[50px] flex flex-col gap-[50px]">
           <div className="flex items-center justify-between">
             <h1 className="font-light">User Information</h1>
-            <button className="py-3 px-6 bg-[#fece51] cursor-pointer border-0">Update Profile</button>
+            <button onClick={()=>{navigate("/profile/update")}} className="py-3 px-6 bg-[#fece51] cursor-pointer border-0">Update Profile</button>
           </div>
           <div className="flex flex-col gap-5">
             <span className="flex items-center gap-5">
               Avatar:
               <img className="h-10 w-10 rounded-full object-cover"
-                src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={user.avatar || "/noavatar.jpg"}
                 alt=""
               />
             </span>
             <span className="flex items-center gap-5">
-              Username: <b>{user?.data?.userInfo?.username}</b>
+              Username: <b>{user?.username}</b>
             </span>
             <span className="flex items-center gap-5">
-              E-mail: <b>{user?.data?.userInfo?.email}</b>
+              E-mail: <b>{user?.email}</b>
             </span>
             <button className="flex w-20 bg-teal-600 text-white p-2 items-center justify-center rounded hover:bg-teal-700" onClick={handleLogout}>LogOut</button>
           </div>
@@ -64,4 +65,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default Profile;

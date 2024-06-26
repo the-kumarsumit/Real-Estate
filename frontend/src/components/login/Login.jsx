@@ -1,31 +1,33 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
-import UserContext from "../../assets/context/UserContext";
+axios.defaults.withCredentials = true;
+import UserContext from "../../context/UserContext";
 
 function Login() {
+  const { user, login } = useContext(UserContext);
   
   const navigate = useNavigate();
-  useEffect(()=>{
-    const user=localStorage.getItem("data")
-    if(user){
-        navigate('/')
-    }
-  },[navigate])
 
-  const {login}=useContext(UserContext)
-  const [isLoading,setIsLoading] = useState(false)
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  },);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
-    setIsLoading(true)
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.target);
     const email = formData.get("email");
     const password = formData.get("password");
 
     try {
-
-      if(!email || !password){
+      if (!email || !password) {
+        setIsLoading(false);
         return toast.error("All fields are required");
       }
 
@@ -33,17 +35,20 @@ function Login() {
         email,
         password,
       });
-      login(res)
+
+      login(res?.data?.userInfo);
       toast.success(res?.data?.message);
-      setTimeout(()=>{
-        navigate("/")
-      },3500)
+      
+      setTimeout(() => {
+        navigate("/");
+      }, 3500);
     } catch (err) {
       toast.error(err?.response?.data?.message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
+
   return (
     <div className="h-full flex">
       <div className="flex flex-[3] h-full items-center justify-center">

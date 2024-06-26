@@ -11,7 +11,7 @@ function Register() {
     if(user){
         navigate('/')
     }
-  },[navigate])
+  },)
   const handleSubmit = async (e) => {
     setIsLoading(true)
     e.preventDefault();

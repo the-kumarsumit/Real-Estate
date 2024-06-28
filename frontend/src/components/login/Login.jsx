@@ -61,7 +61,7 @@ function Login() {
         </form>
       </div>
       <div className="hidden sm:flex flex-[2] bg-[#fcf5f3] items-center justify-center">
-        <img className="w-full" src="/bg.png" alt="" />
+        <img className="w-full h-full object-cover" src="/bg.png" alt="" />
       </div>
     </div>
   );

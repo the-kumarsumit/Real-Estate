@@ -1,38 +1,35 @@
 import React, { useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-
 function ProfileUpdate() {
+  const [file, setFile] = useState();
   const { user, updateUser } = useContext(UserContext);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setImagePreviewUrl(URL.createObjectURL(e.target.files[0]))
+  };
 
   const handleSubmit = async (e) => {
-    setIsLoading(true)
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.target);
-    const { username, email, password } = Object.fromEntries(formData);
+    formData.append("avatar", file);
+    
 
     try {
-      let res = await axios.put(
-        `http://localhost:8000/api/users/${user.id}`,
-        {
-          username,
-          email,
-          password,
-          // avatar:avatar[0]
-        },
-        
-      );
-      // console.log(res);
+      let res = await axios.put(`http://localhost:8000/api/users/${user.id}`, formData);
       updateUser(res?.data?.userInfo);
       toast.success(res?.data?.message);
-      setTimeout(()=>{
-        navigate("/profile")
-      },3500)
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3500);
     } catch (err) {
       toast.error(err?.response?.data?.message);
     } finally {
@@ -73,8 +70,14 @@ function ProfileUpdate() {
           </button>
         </form>
       </div>
-      <div className="hidden sm:flex flex-[2] bg-[#fcf5f3] items-center justify-center">
-        <img className="w-4/5" src={user.avatar || "/noavatar.jpg"} alt="" />
+      <div className="hidden sm:flex md:flex-col gap-5 flex-[2] bg-[#fcf5f3] items-center justify-center">
+        <img
+          className="w-3/5"
+          src={imagePreviewUrl || user.avatar || "/noavatar.jpg"}
+          alt=""
+        />
+        <input type="file" name="uploadfile" id="img" className="hidden" onChange={handleFileChange}/>
+        <label className="border p-2 text-white bg-blue-500 rounded" htmlFor="img" onChange={handleFileChange}>Click to upload image</label>
       </div>
     </div>
   );

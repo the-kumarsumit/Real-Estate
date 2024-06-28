@@ -82,7 +82,7 @@ function Header() {
                 Login
               </Link>
               <Link
-                className="bg-lime-500 p-2 rounded text-white font-medium hover:bg-lime-600 hidden sm:block"
+                className="bg-lime-500 p-2 rounded text-white font-medium hover:bg-lime-600 hover:scale-110 hidden sm:block"
                 to="/register"
               >
                 Register

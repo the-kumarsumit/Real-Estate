@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcryptjs"
+import {uploadOnCloudinary} from "../utils/cloudinary.js"
 export const getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
@@ -12,7 +13,7 @@ export const getUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
   const id = req.params.id;
   const tokenUserId = req.userId;
-  const { password, avatar, ...inputs } = req.body;
+  const { password, ...inputs } = req.body;
 
   if (id !== tokenUserId) {
     return res.status(403).json({ message: "Not Authorized!" });
@@ -23,13 +24,16 @@ export const updateUser = async (req, res) => {
     if (password) {
       updatedPassword = await bcrypt.hash(password, 10);
     }
-
+    
+    const avatarPath = req.file.path
+    const avatar = await uploadOnCloudinary(avatarPath,"avatars")
     const updatedUser = await prisma.user.update({
       where: { id },
       data: {
         ...inputs,
         ...(updatedPassword && { password: updatedPassword }),
         ...(avatar && { avatar }),
+        ...(avatar && { avatar: avatar.secure_url }),
       },
     });
 

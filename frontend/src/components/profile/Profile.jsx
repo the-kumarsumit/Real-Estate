@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Chat from "../chat/Chat";
 import List from "../list/List";
 import axios from "axios";
@@ -47,7 +47,7 @@ function Profile() {
           </div>
           <div className="flex items-center justify-between">
             <h1>My List</h1>
-            <button className="py-3 px-6 bg-[#fece51] cursor-pointer border-0">Create New Post</button>
+            <Link to="/add"><button className="py-3 px-6 bg-[#fece51] cursor-pointer border-0">Create New Post</button></Link>
           </div>
           <List />
           <div className="flex items-center justify-between">

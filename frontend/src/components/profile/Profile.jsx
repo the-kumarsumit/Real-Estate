@@ -1,12 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
 import Chat from "../chat/Chat";
 import List from "../list/List";
 import axios from "axios";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import UserContext from "../../context/UserContext";
 
 
 function Profile() {
+  const data = useLoaderData();
 
   const {logout,user}=useContext(UserContext)
   const navigate=useNavigate()
@@ -49,11 +50,25 @@ function Profile() {
             <h1>My List</h1>
             <Link to="/add"><button className="py-3 px-6 bg-[#fece51] cursor-pointer border-0">Create New Post</button></Link>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.userPosts} />}
+            </Await>
+          </Suspense>
           <div className="flex items-center justify-between">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.savedPosts} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="md:flex-[2] h-max md:h-full bg-[#fcf5f3]">

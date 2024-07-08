@@ -19,7 +19,7 @@ import Profile from "./components/profile/Profile.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
 import ProfileUpdate from "./components/profileUpdate/ProfileUpdate.jsx";
 import NewPost from "./components/newPost/NewPost.jsx";
-import { singlePageLoader } from "./lib/loaders.js";
+import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders.js";
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -30,11 +30,11 @@ const router=createBrowserRouter(
       <Route path='contact' element={<ContactUs/>}/>
       <Route path='login' element={<Login/>}/>
       <Route path='register' element={<Register/>}/>
-      <Route path='list' element={<Listpage/>}/>
+      <Route path='list' loader={listPageLoader} element={<Listpage/>}/>
       <Route path=':id' loader={singlePageLoader} element={<SinglePage/>}/>
     </Route>
     <Route path='/' element={<RequireAuth/>}>
-      <Route path='profile' element={<Profile/>}/>
+      <Route path='profile' loader={profilePageLoader} element={<Profile/>}/>
       <Route path='profile/update' element={<ProfileUpdate/>}/>
       <Route path='add' element={<NewPost/>}/>
     </Route>

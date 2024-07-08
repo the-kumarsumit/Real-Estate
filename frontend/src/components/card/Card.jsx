@@ -12,7 +12,7 @@ function Card({ item }) {
       <Link to={`/${item.id}`} className="flex-[2] h-[200px]">
         <img
           className="w-full h-full object-cover rounded-[10px]"
-          src={item.img}
+          src={item.images[0]}
           alt=""
         />
       </Link>

@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("data")) || null
   );

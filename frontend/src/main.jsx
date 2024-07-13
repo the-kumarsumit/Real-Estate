@@ -16,31 +16,40 @@ import HomePage from "./components/homepage/HomePage.jsx";
 import Listpage from "./components/listpage/Listpage.jsx";
 import SinglePage from "./components/singlepage/SinglePage.jsx";
 import Profile from "./components/profile/Profile.jsx";
-import { UserProvider } from "./context/UserContext.jsx";
+import { UserContextProvider } from "./context/UserContext.jsx";
 import ProfileUpdate from "./components/profileUpdate/ProfileUpdate.jsx";
 import NewPost from "./components/newPost/NewPost.jsx";
-import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders.js";
+import {
+  listPageLoader,
+  profilePageLoader,
+  singlePageLoader,
+} from "./lib/loaders.js";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
 
-const router=createBrowserRouter(
+const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-    <Route path='/' element={<Layout/>}>
-      <Route path='' element={<HomePage/>}/>
-      <Route path='about' element={<AboutUs/>}/>x
-      <Route path='contact' element={<ContactUs/>}/>
-      <Route path='login' element={<Login/>}/>
-      <Route path='register' element={<Register/>}/>
-      <Route path='list' loader={listPageLoader} element={<Listpage/>}/>
-      <Route path=':id' loader={singlePageLoader} element={<SinglePage/>}/>
-    </Route>
-    <Route path='/' element={<RequireAuth/>}>
-      <Route path='profile' loader={profilePageLoader} element={<Profile/>}/>
-      <Route path='profile/update' element={<ProfileUpdate/>}/>
-      <Route path='add' element={<NewPost/>}/>
-    </Route>
+      <Route path="/" element={<Layout />}>
+        <Route path="" element={<HomePage />} />
+        <Route path="about" element={<AboutUs />} />x
+        <Route path="contact" element={<ContactUs />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="list" loader={listPageLoader} element={<Listpage />} />
+        <Route path=":id" loader={singlePageLoader} element={<SinglePage />} />
+      </Route>
+      <Route path="/" element={<RequireAuth />}>
+        <Route
+          path="profile"
+          loader={profilePageLoader}
+          element={<Profile />}
+        />
+        <Route path="profile/update" element={<ProfileUpdate />} />
+        <Route path="add" element={<NewPost />} />
+      </Route>
     </>
   )
-)
+);
 
 // const router = createBrowserRouter([
 //   {
@@ -94,7 +103,9 @@ const router=createBrowserRouter(
 // ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <UserProvider>
-    <RouterProvider router={router} />
-  </UserProvider>
+  <UserContextProvider>
+    <SocketContextProvider>
+      <RouterProvider router={router} />
+    </SocketContextProvider>
+  </UserContextProvider>
 );

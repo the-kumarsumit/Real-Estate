@@ -73,7 +73,14 @@ function Profile() {
       </div>
       <div className="md:flex-[2] h-max md:h-full bg-[#fcf5f3]">
         <div className="px-5 h-full">
-          <Chat/>
+        <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.chatResponse}
+              errorElement={<p>Error loading chats!</p>}
+            >
+              {(chatResponse) => <Chat chats={chatResponse.data}/>}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>

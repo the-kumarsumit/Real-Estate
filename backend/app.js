@@ -5,6 +5,8 @@ import postRoute from "./routes/post.routes.js";
 import authRoute from "./routes/auth.routes.js";
 import testRoute from "./routes/test.routes.js";
 import userRoute from "./routes/user.routes.js";
+import chatRoute from "./routes/chat.routes.js";
+import messageRoute from "./routes/message.routes.js";
 
 const app = express();
 app.use(cookieParser());
@@ -14,4 +16,6 @@ app.use("/api/posts", postRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/test", testRoute);
 app.use("/api/users", userRoute);
+app.use("/api/chats", chatRoute);
+app.use("/api/messages", messageRoute);
 export { app };

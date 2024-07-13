@@ -3,9 +3,15 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 import HamburgerMenu from "./HamburgerMenu";
 import UserContext from "../../context/UserContext";
+import { useNotificationStore } from "../../lib/notificationStore";
 
 function Header() {
   const {user}=useContext(UserContext)
+
+  const fetch = useNotificationStore((state) => state.fetch);
+  const number = useNotificationStore((state) => state.number);
+
+  if(user) fetch();
 
   return (
     <>
@@ -67,9 +73,9 @@ function Header() {
                 to="/profile"
                 className="py-3 px-6 bg-[#fece51] cursor-pointer border-0 relative "
               >
-                <div className="absolute top-[-8px] right-[-8px] bg-red-600 text-white rounded-full w-[26px] h-[26px] flex items-center justify-center">
-                  3
-                </div>
+                {number>0 && <div className="absolute top-[-8px] right-[-8px] bg-red-600 text-white rounded-full w-[26px] h-[26px] flex items-center justify-center">
+                  {number}
+                </div>}
                 <span>Profile</span>
               </Link>
             </div>

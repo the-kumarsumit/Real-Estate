@@ -100,7 +100,7 @@ function NewPost() {
       );
       toast.success(res?.data?.message);
       setTimeout(() => {
-        navigate("/" + res?.data?.newPost?.id);
+        navigate("/" + res?.data?.newPost?._id);
       }, 3000);
     } catch (err) {
       toast.error(err?.data?.message);

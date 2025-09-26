@@ -8,6 +8,7 @@ import UserContext from "../../context/UserContext";
 
 function Profile() {
   const data = useLoaderData();
+  
 
   const {logout,user}=useContext(UserContext)
   const navigate=useNavigate()

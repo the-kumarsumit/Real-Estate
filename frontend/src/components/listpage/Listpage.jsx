@@ -18,7 +18,7 @@ function Listpage() {
             >
               {(postResponse) =>
                 postResponse.data.map((post) => (
-                  <Card key={post.id} item={post} />
+                  <Card key={post._id} item={post} />
                 ))
               }
             </Await>

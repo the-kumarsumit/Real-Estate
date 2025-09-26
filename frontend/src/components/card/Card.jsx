@@ -7,9 +7,10 @@ import pin from "/pin.png";
 import save from "/save.png";
 
 function Card({ item }) {
+  
   return (
     <div className="flex gap-5 pe-2 flex-col md:flex-row">
-      <Link to={`/${item.id}`} className="flex-[2] h-[200px]">
+      <Link to={`/${item._id}`} className="flex-[2] h-[200px]">
         <img
           className="w-full h-full object-cover rounded-[10px]"
           src={item.images[0]}
@@ -18,7 +19,7 @@ function Card({ item }) {
       </Link>
       <div className="flex-[3] flex flex-col justify-between gap-2.5">
         <h2 className="text-xl font-semibold text-[#444] hover:text-black hover:scale-[1.01]">
-          <Link to={`/${item.id}`}>{item.title}</Link>
+          <Link to={`/${item._id}`}>{item.title}</Link>
         </h2>
         <p className="text-[14px] flex items-center gap-[5px] text-[#888]">
           <img className="h-4 w-4" src={pin} alt="" />

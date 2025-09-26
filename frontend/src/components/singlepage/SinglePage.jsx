@@ -7,8 +7,10 @@ import UserContext from "../../context/UserContext";
 import DOMPurify from "dompurify";
 
 function SinglePage() {
-  const post = useLoaderData();
+  let post = useLoaderData();
+  
   const [saved, setSaved] = useState(post.isSaved);
+  post=post._doc
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ function SinglePage() {
     // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
     setSaved((prev) => !prev);
     try {
-      await apiRequest.post("/users/save", { postId: post.id });
+      await apiRequest.post("/users/save", { postId: post._id });
     } catch (err) {
       console.log(err);
       setSaved((prev) => !prev);
@@ -51,7 +53,7 @@ function SinglePage() {
                   src={post?.user?.avatar}
                   alt=""
                 />
-                <span>{post?.user?.username}</span>
+                <span>{post?.userId?.username}</span>
               </div>
             </div>
             <div
